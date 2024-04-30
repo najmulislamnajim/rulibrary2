@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block body%}
+<section class="section-content padding-y bg">
+  <div class="container">
+    <div>
+      <h2>You are borrowing</h2>
+    </div>
+    <main class="col-md-6 border-left">
+      <article class="content-body">
+      
+      <h4 class="title"> {{book.title}}</h4>
+      <div class="price-wrap mt-2">
+          <p class="text-info">{{book.author}}</p>
+      </div>
+    
+      <div>
+          <p>
+              <span class="font-weight-bold">Genres:</span>
+              {% for item in genres %}
+              <span class="text-capitalize">{{item}} </span>
+              {% endfor %}
+          </p>
+          <p><span class="font-weight-bold">Format:</span><span>{{book.total_page}} Pages, </span> <span>{{book.cover}} </span></p>
+          <p><span class="font-weight-bold">Published:</span> {{book.publication_date}}</p>
+          <p><span class="font-weight-bold">ISBN:</span> {{book.isbn}}</p>
+          <p><span class="font-weight-bold">Language:</span> {{book.language}}</p>
+      </div>
+      <div>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <div class="py-2">
+              <label class="font-weight-bold">Return Date</label>
+              <br/>
+              <input class="p-2" type="date" name="return_date" required>
+              <p style="font-size: 14px; color: #888;">
+                This date input is required. Please choose a date from the calendar.
+              </p>
+            </div>
+            
+            <div style="margin-top: 20px;">
+              <div class="col-md-4 " style="padding-left:0"> 
+                  <button type="submit" class="btn btn-primary btn-block p-2">
+                    Borrow
+                  </button>
+              </div>
+          </div>
+        </form>
+      </div>
+      </article> <!-- product-info-aside .// -->
+      </main>
+  </div>
+</section>
+{% endblock%}

@@ -1,0 +1,98 @@
+{%extends 'base.html'%}
+{% load socialaccount %}
+{% load static %}
+{% load account socialaccount %}
+{% load allauth account %}
+{% load allauth %}
+{% load i18n %}
+
+{% block body %}
+
+{% get_providers as socialaccount_providers %}
+
+<section class="mb-100">
+    <div class="container py-3 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+  
+              <h3 class="mb-4">Sign Up</h3>
+
+              {% setvar link %}
+                <a href="{{ login_url }}">
+                {% endsetvar %}
+                  {% setvar end_link %}
+                </a>
+              {% endsetvar %}
+                <p>{% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}</p>
+
+            {% if not SOCIALACCOUNT_ONLY %}
+                {% url 'account_signup' as action_url %}
+                {% element form form=form method="post" action=action_url tags="entrance,signup" %}
+                {% csrf_token %}
+                {% slot body %}
+                    {% csrf_token %}              
+                    {% if form.errors %}
+                      <div class="alert alert-danger">
+                      <strong>Error!</strong>
+                      <ul>
+                        {% for field, errors in form.errors.items %}
+                          {% for error in errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        {% endfor %}
+                      </ul>
+                      </div>
+                    {% endif %}
+                    <div data-mdb-input-init class="form-outline mb-3">
+                      <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" required id="id_username"/>
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-3">
+                      <input type="email" name="email" class="form-control form-control-lg" placeholder="E-mail" required id="id_email"/>
+                    </div>
+        
+                    <div data-mdb-input-init class="form-outline mb-3">
+                      <input type="password" id="id_password1" name="password1" class="form-control form-control-lg" placeholder="Password"/>
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-3">
+                      <input type="password" id="id_password2" name="password2" class="form-control form-control-lg" placeholder="Password (again)"/>
+                    </div>
+                    {{ redirect_field }}
+                {% endslot %}
+                {% slot actions %}
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">{% trans "Sign Up" %}</button>
+                {% endslot %}
+                {% endelement %}
+            {% endif %}
+            <hr class="my-4">
+
+            {% if SOCIALACCOUNT_ENABLED %}
+            {% for provider in socialaccount_providers %}
+                {% if provider.name == 'Google' %}
+                <div>
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;" type="submit"><i class="fab fa-google me-2"></i> <a title="{{provider.name}}" 
+                        class="socialaccount_provider {{provider.id}} {{brand.id}}" 
+                        href="{% provider_login_url provider.id openid=brand.openid_url%}"
+                        style="color:rgb(250, 250, 250)">Sign up with {{provider.name}}</a>
+                    </button>
+                </div>
+                {% endif %}
+
+                {% if provider.name == 'Facebook' %}
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-2" style="background-color: #3b5998;"
+                type="submit"><i class="fab fa-facebook-f me-2"></i>Sign up with  {{provider.name}}</button>
+                {%endif %}
+              {% endfor %}
+            {% endif %}
+
+  
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+{% endblock %}

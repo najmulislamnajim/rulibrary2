@@ -1,0 +1,45 @@
+{%extends 'base.html'%}
+{% load socialaccount %}
+{% load static %}
+{% load account socialaccount %}
+{% load allauth %}
+{% load i18n %}
+
+{% block body %}
+    {% if process == "connect" %}
+    {% else %}
+        <section class="mb-100">
+            <div class="container py-3 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                            <div class="card-body p-5 text-center">
+    
+                            <h3 class="mb-5">{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h3>
+                            <p>{% blocktrans with provider.name as provider %}You are about to sign in using a third-party account from {{ provider }}.{% endblocktrans %}
+                            </p>
+
+                        {% element form method="post" no_visible_fields=True %}
+                        {% slot actions %}
+                        {% csrf_token %}
+                        
+                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;"
+                            type="submit"><i class="fab fa-google me-2"></i>
+                            {% trans "Continue" %}</button>
+                
+                        
+                        {% endslot %}
+                        {% endelement %}
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    {% endif %}
+
+{% get_providers as socialaccount_providers %}
+
+
+
+{% endblock %}

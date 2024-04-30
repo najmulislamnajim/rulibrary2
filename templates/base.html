@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="max-age=604800" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Readers unity library | Your reading partner...</title>
+
+<link href="{% static 'images/iconf.ico'%}" rel="shortcut icon" type="image/x-icon">
+
+<!-- jQuery -->
+<script src="{% static 'js/jquery-2.0.0.min.js'%} " type="text/javascript"></script>
+
+<!-- Bootstrap4 files-->
+<script src="{% static 'js/bootstrap.bundle.min.js'%}" type="text/javascript"></script>
+<link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" type="text/css"/>
+
+<!-- Font awesome 5 -->
+<link href="{% static 'fonts/fontawesome/css/all.min.css'%}" type="text/css" rel="stylesheet">
+
+<!-- custom style -->
+<link href="{% static 'css/ui.css'%}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/responsive.css'%}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+{% block style %}
+<style>
+    textarea:focus {
+        border-color: #007bff;
+    }
+    .myheading{
+        width: 100%;
+        text-align: center;
+        font-family:'Merriweather', serif;
+        font-weight: 400;
+        font-size: 3rem;
+        line-height: 1.2;
+        color:#6c757d;
+        padding: 10px;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+<!-- <link href="{% static 'css/style.css'%}" rel="stylesheet" type="text/css"/> -->
+
+<!-- custom javascript -->
+<script src="{% static 'js/script.js'%}" type="text/javascript"></script>
+
+<script type="text/javascript">
+/// some script
+
+// jquery ready start
+$(document).ready(function() {
+	// jQuery code
+
+}); 
+// jquery end
+</script>
+
+</head>
+<body>
+
+
+<header class="section-header">
+    <section class="header-main border-bottom">
+        <div class="container">
+        <div class="row align-items-center">
+        <div class="col-lg-2 col-md-3 col-6">
+            <a href="{% url 'home'%}" class="brand-wrap">
+                <h2>RULibrary</h2>
+            </a> <!-- brand-wrap.// -->
+        </div>
+        <div class="col-lg col-sm col-md col-6 flex-grow-0">
+            <div class="category-wrap dropdown d-inline-block float-right">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> 
+                    <i class="fa fa-bars"></i> All Genres 
+                </button>
+                <div class="dropdown-menu">
+                    {% for genre in genres%}
+                    <a class="dropdown-item" href="{% url 'genre' genre.slug%}">{{genre.genre_name}}</a>
+                    {% endfor%}
+                    
+                </div>
+            </div>  <!-- category-wrap.// -->
+        </div> <!-- col.// -->
+        <a href="{% url 'book'%}" class="btn btn-outline-primary">Books</a>
+        <div class="col-lg  col-md-6 col-sm-12 col">
+             <!-- Search -->
+            <form method='post' action="#" class="search">
+                {% csrf_token %}
+                <div class="input-group w-100">
+                    <input type="text" class="form-control " style="width:60%;" placeholder="Search" name='search_field' required>
+                    
+                    <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    </div>
+                </div>
+            </form> <!-- search-wrap .end// -->
+        </div> <!-- col.// -->
+        <div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
+                    <div class="d-flex justify-content-end mb-3 mb-lg-0">
+                        <div class="widget-header">
+                            <small class="title text-muted">
+                                Welcome {% if request.user.is_authenticated%}
+                                {% if request.user.first_name%}
+                                {{request.user.first_name}}
+                                {%else%}
+                                {{request.user.username}}
+                                {%endif%}
+                                {% else %} Guest {% endif %}!
+                            </small>
+                            <div>
+                                {% if request.user.is_authenticated%} 
+                                <a href="{% url 'profile' %}">Profile</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'account_logout' %}"> Log out</a>
+                                <a href="{% url 'wishlist' %}" class="widget-header pl-3 ml-3">
+                                    <div class="icon icon-sm rounded-circle border">
+                                        <img src="{% static 'images/icons/love-letter.png'%}" alt="wishlist" style="width: 30px;">
+                                    </div>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'account_login' %}">Sign in</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'account_signup' %}"> Register</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                          
+                    </div> <!-- widgets-wrap.// -->
+                </div> <!-- col.// -->
+    </div> <!-- row.// -->
+        </div> <!-- container.// -->
+    </section> <!-- header-main .// -->
+</header> <!-- section-header.// -->
+
+
+{% block body%}
+    <section class="section-intro padding-y-sm">
+        <div class="container">
+        
+        <div class="intro-banner-wrap">
+            <img src="{% static 'images/banners/banner.jpg' %}" class="img-fluid rounded">
+        </div>
+        
+        </div> <!-- container //  -->
+    </section>
+    <!-- ========================= SECTION MAIN END// ========================= -->
+
+    <!--======================= SECTION What we offer  Start ======================-->
+<section class=" border-bottom" id="features" style="padding-bottom: 3rem;">
+    <div class="container px-5 my-5">
+        <div>
+            <h2 class="myheading">What we offer</h2>
+        </div>
+        <div class="row gx-5">
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <img src="{% static 'myicon/reading-book.png' %}" alt="" style="width: 90px;height:90px;">
+                <h2 class="h4 fw-bolder p-2">Reading Online</h2>
+                <p>You can reading books online, availabel on our platform. We'll add onto it with more books and probably just keep going until we run out of books.</p>
+                <a class="text-decoration-none" href="#!">
+                    Call to action
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <img src="{% static 'myicon/borrow.png' %}" alt="" style="width: 90px;height:90px;">
+                <h2 class="h4 fw-bolder p-2">Borrow Books</h2>
+                <p>You can borrow books, availbale on our platform. Also you can see details of a book, and browse books via category. After finishing your reading you need to return the book.</p>
+                <a class="text-decoration-none" href="#!">
+                    Call to action
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <div class="col-lg-4">
+                <img src="{% static 'myicon/wishlist.png' %}" alt="" style="width: 90px;height:90px;">
+                <h2 class="h4 fw-bolder p-2">Add to Wishlist</h2>
+                <p>You can add books into your wishlist after sign in your account. Also you can see later and take more action like view the book detais or borrow this book.</p>
+                <a class="text-decoration-none" href="#!">
+                    Call to action
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--======================= SECTION What we offer  End ======================-->
+	
+	<!-- ========================= SECTION POPULAR BOOKS  ========================= -->
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            <h3 class="section-title myheading">Popular books</h3>
+        </header><!-- sect-heading -->
+    
+        <div class="row">
+            {% for book in books %}	
+            <div class="col-md-3">
+                <div class="card card-product-grid">
+                    <a href="{% url 'book_details' book.slug %}" class="img-wrap"> <img src="{{book.image.url}}"> </a>
+                    <figcaption class="info-wrap">
+                        <div class="fix-height">
+                            <a href="{% url 'book_details' book.slug %}" class="title" style="text-align:center">{{book.title}}</a>
+                        
+                        <div class="price-wrap mt-2">
+                            <p style="text-align:center"><span class="font-weight-light">by </span>{{book.author}}</p>
+                        </div>
+                        </div>
+                        <a href="{% url 'book_details' book.slug %}" class="btn btn-block btn-success">Details </a>
+                    </figcaption>
+                </div>
+            </div> 
+            {% endfor %}
+        </div> 
+        <a href="{% url 'book'%}" class="btn btn-outline-primary float-right">See all</a>
+    </div>
+</section>
+<hr style="margin-top: 3rem;">
+	<!--======================= SECTION POPULAR BOOKS  END ======================-->
+
+	<!-- ========================= SECTION Online BOOKS  ========================= -->
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            <h3 class="section-title myheading">Read Online</h3>
+        </header><!-- sect-heading -->
+    
+        <div class="row">
+            {% for book in obooks %}	
+            <div class="col-md-3">
+                <div class="card card-product-grid">
+                    <a href="#" class="img-wrap"> <img src="{{book.image.url}}"> </a>
+                    <figcaption class="info-wrap">
+                        <div style="margin-bottom: 10px;">
+                            <a href="#" class="title" style="text-align:center">{{book.name}}</a>
+                            <div class="price-wrap mt-2">
+                                <p style="text-align:center"><span class="font-weight-light">by </span>{{book.author}}</p>
+                            </div>
+                        </div>
+                        <a href="{% url 'read_book' book.id %}" class="btn btn-block btn-success">Read Now </a>
+                    </figcaption>
+                </div>
+            </div> 
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            <a href="{% url 'online_books'%}" class="btn btn-outline-primary float-right">See all</a>
+        </div>
+ 
+    </div>
+</section>
+<hr>
+<!--======================= SECTION ONLINE BOOKS  END ======================-->
+
+    <!--======================= SECTION Event  Start ======================-->
+    <section class=" border-bottom" id="features">
+        <div class="container px-5 my-5">
+            <div>
+                <h2 class="myheading">Events</h2>
+            </div>
+            <div class="row gx-5">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <img src="{% static 'myicon/exchange.png' %}" alt="" style="width: 90px;height:90px;">
+                    <h2 class="h4 fw-bolder p-2">Exchange Books</h2>
+                    <p>You can exchange your books with other book lovers, where you can get your favorite books by exchangging your old books.</p>
+                    <a class="text-decoration-none" href="#" >comming soon
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                    
+                </div>
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <img src="{% static 'myicon/book-fair.png' %}" alt="" style="width: 90px;height:90px;">
+                    <h2 class="h4 fw-bolder p-2">Book Fair</h2>
+                    <p>We are very happy to organize a book fair. 50 different publications have brought their new and old books in this book fair.</p>
+                    <a class="text-decoration-none" href="#!">
+                        Ongoing (01 may to 2 june)
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <img src="{% static 'myicon/donation.png' %}" alt="" style="width: 90px;height:90px;">
+                    <h2 class="h4 fw-bolder p-2">Book Donation</h2>
+                    <p>You can donate books to various libraries. You can step forward as a book lover to improve the underdeveloped libraries of the country.</p>
+                    <a class="text-decoration-none" href="#!">
+                        Past (15-04-2024)
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </section>
+    <!--======================= SECTION Event  End ======================-->
+
+
+
+{%endblock %}
+<!--*************** Footer  Starts Here *************** -->
+    <section class="section-content padding-y bg" style="padding-bottom: 0; background-color:#d4d7da">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Contact Informatins</h2>
+                    <div class="row" style="padding: 10px;">
+                        <span style="padding: 10px;"><i class="fas fa-map-marker-alt"></i></span>
+                        <p >Birgoan, Ramdubi Hat, Sadar,<br> Dinajpur, Bangladesh</p>
+                    </div>
+                    
+                    <div class="row" style="padding:10px">
+                        <span style="padding: 10px;"><i class="far fa-envelope"></i></span>
+                        <p>
+                            sjksbd.bir@gmail.com <br />
+                            support@sjks.org.bd
+                            </p>
+                    </div>
+
+                    <div class="row" style="padding:10px">
+                        <span style="padding: 10px;"><i class="fas fa-phone"></i></span>
+                        <p>
+                            +88 01700000000 <br />
+                            +88 01700000000
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h2>Quick Links</h2>
+                    <div class="row">
+                        <ul style="padding:10px; margin-bottom:0px;">
+                            <li style="list-style: none;">Home</li>
+                            <li style="list-style: none;">Books</li>
+                            <li style="list-style: none;">About Us</li>
+                        </ul>
+                        <ul style="padding:10px; margin-bottom:0px;">
+                            <li style="list-style: none;">Profile</li>
+                            <li style="list-style: none;">Contact Us</li>
+                        </ul>
+                    </div>
+                    <h2>More Activities</h2>
+                    <div class="row">
+                        <ul style="padding:10px; margin-bottom:0px;"">
+                            <li style="list-style: none;">Food Donation</li>
+                            <li style="list-style: none;">Smart Event</li>
+                        </ul>
+                        <ul style="padding:10px;margin-bottom:0px">
+                            <li style="list-style: none;">Smart School</li>
+                            <li style="list-style: none;">Scholarship</li>
+                        </ul>
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-4">
+                    <h4>Quick Message</h4>
+                    <form method="post">
+                        {%csrf_token %}
+                        <div data-mdb-input-init class="form-outline mb-1">
+                            <input id="contact_name" name="name" type="text"placeholder="Enter your Name"class="form-control" required/>
+                        </div>
+                        <div data-mdb-input-init class="form-outline mb-1">
+                            <input id="contact_phone" type="phone" placeholder="Enter Mobile no"class="form-control" required name="phone"/>
+                        </div>
+                        <div data-mdb-input-init class="form-outline mb-1">
+                            <input id="contact_email" type="email" placeholder="Enter your Email Address"class="form-control" required name="email" />
+                        </div>
+                        <div data-mdb-input-init class="form-outline mb-1">
+                            <textarea name="message" cols="40" rows="3" style="width: 380px;border-color:#d5d1d1;" class="rounded" id="contact_message" placeholder="Type your message"></textarea>
+                        </div>
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" disabled>Send Message</button>
+                    </form>
+
+                </div>
+                
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-lg-8 col-md-6" style="padding: 20px;">
+                    <p>
+                      Copyright © <a href="#">rulibrary.org.bd</a> | All right
+                      reserved.
+                    </p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 socila-link" style="padding: 20px;">
+                    <ul style="float: right;">
+                      <li style="list-style: none;float:left;padding: 0px 20px;">
+                        <a href="#" style="font-size: 28px;"><i class="fab fa-twitter"></i></a>
+                      </li>
+                      <li style="list-style: none;float:left;padding: 0px 20px;">
+                        <a href="https://www.github.com/najmulislamnajim" style="font-size: 28px;"><i class="fab fa-github"></i></a>
+                      </li>
+                      <li style="list-style: none;float:left;padding: 0px 20px;">
+                        <a href="https://www.linkedin.com/in/najmulislamnajimofficial/" style="font-size: 28px;"><i class="fab fa-linkedin"></i></a>
+                      </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+<!-- ========================= FOOTER END // ========================= -->
+
+</body>
+</html>

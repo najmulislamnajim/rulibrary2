@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+
+{% block body %}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-7 mx-auto">
+            <div class="card rounded-0 border-0 shadow">
+                <div style="margin:auto;">
+                    <h2 class="p-2 mt-2">Your borrowing book list</h2>
+                </div>
+                {% if data%}
+                <div class="card-body p-5">
+                    
+                    <!--  Bootstrap table-->
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Book Name</th>
+                                    <th scope="col">Author</th>
+                                    <th scope="col">Borrow Date</th>
+                                    <th scope="col">Return Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data %}
+                                <tr>
+                                    <td>{{item.book.title}}</td>
+                                    <td>{{item.book.author}}</td>
+                                    <td>{{item.borrow_date}}</td>
+                                    <td>{{item.return_date}}</td>
+                                    <td><a href="{% url 'return' item.id%}" class="btn btn-block btn-primary">Return </a></td>
+                                </tr>
+                                {% endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                {% else %}
+                <div style="margin:auto;margin-bottom:200px">
+                    <h5>No Book in borrowing list.</h5>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

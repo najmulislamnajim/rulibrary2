@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md mt-2" role="alert">
+    <div class="flex">
+        <div style="max-width: 500px; margin:auto; margin-bottom: 350px">
+
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2" role="alert">
+            <div class="alert alert-danger" role="alert">
+                <div>
+                    <h4>You have already borrow this book!</h4>
+                </div>
+                <div class="text-dark">
+                    <span>visit <a href="{% url 'borrow_list' %}">Borrow List</a> 
+                </div>
+            </div>
+          
+                      
+          </div>
+       </div>
+</div>
+
+{% endblock %}

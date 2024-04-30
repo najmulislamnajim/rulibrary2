@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+{% load static %}
+{% load allauth i18n %}
+
+{% block body %}
+
+
+<section class="mb-100">
+    <div class="container py-3 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+  
+              <h3 class="mb-4">Sign Out</h3>
+              <p>Are Are you sure you want to sign out?</p> 
+
+              {% url 'account_logout' as action_url %}
+              {% element form method="post" action=action_url no_visible_fields=True %}
+                  {% slot body %}
+                  {% csrf_token %}
+                  {{ redirect_field }}
+                  {% endslot %}
+
+                  {% slot actions %}
+                  <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg   btn-block btn-primary" style="background-color: #dd4b39;"
+                  type="submit">{% trans 'Sign Out' %}</button>
+                  {% endslot %}
+              {% endelement %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<section class="section-content padding-y bg">
+    <div class="container">
+    
+    <!-- ============================ COMPONENT 1 ================================= -->
+    <div class="card">
+        <div class="row no-gutters">
+            <aside class="col-md-6">
+    <article class="gallery-wrap" style="margin-bottom: 50px;"> 
+        <div class="img-big-wrap">
+           <a href="#"><img src="{{book.image.url}}"></a>
+        </div> <!-- img-big-wrap.// -->
+        <div style="margin-top: 20px;">
+            <div class="col-md-4" style="margin: auto;">
+                <p style="margin-top:30px;"><span class="font-weight-bold">Available Books:</span> {{book.stock}}</p> 
+                <a href="{% url 'borrow' book.id %}" class="btn btn-block btn-success">Borrow </a>
+                <a href="{% url 'add_wishlist' book.id %}" class="btn btn-block btn-info">Add to Wishlist </a>
+            </div>
+        </div>
+  
+    </article> <!-- gallery-wrap .end// -->
+            </aside>
+            <main class="col-md-6 border-left">
+    <article class="content-body">
+    
+    <h2 class="title"> {{book.title}}</h2>
+    <div class="price-wrap mt-2">
+        <p class="text-info">{{book.author}}</p>
+    </div>
+    
+    <div class="mb-3"> 
+        {% comment %} <var class="price h4">{{product.product_price}} tk.</var>  {% endcomment %}
+    </div> 
+    
+    <p>{{book.description}} </p>
+    <div>
+        <p>
+            <span class="font-weight-bold">Genres:</span>
+            {% for item in genres %}
+            <span class="text-capitalize">{{item}} </span>
+            {% endfor %}
+        </p>
+        <p><span class="font-weight-bold">Format: </span><span>{{book.total_page}} Pages, </span> <span>{{book.cover}} </span></p>
+        <p><span class="font-weight-bold">Published:</span> {{book.publication_date}}</p>
+        <p><span class="font-weight-bold">ISBN:</span> {{book.isbn}}</p>
+        <p><span class="font-weight-bold">Language:</span> {{book.language}}</p>
+    </div>
+    <div>
+        
+        
+    </div>
+    <form method='post'>
+        {% csrf_token %}
+    </form>
+    </article> <!-- product-info-aside .// -->
+            </main> <!-- col.// -->
+        </div> <!-- row.// -->
+    </div> <!-- card.// -->
+    <!-- ============================ COMPONENT 1 END .// ================================= -->
+    
+    <br>
+    
+    <div class="row">
+                <div class="col-md-9">
+    
+        <header class="section-heading">
+            <h3>Reader Reviews </h3>  
+            
+        </header>
+    
+        <article class="box mb-3">
+            {% for review in reviews %}
+            <div class="icontext w-100">
+                <img src="{% static 'images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle">  
+            </div> <!-- icontext.// -->
+            <div class="mt-3">
+                <h6 class="mb-1">{{review.user.first_name}}  {{review.user.last_name}} </h6>
+                <p>{{review.rating}} &#11088</p>
+                <p>
+                    {{review.comment}}
+                </p>	
+            </div>
+            {% endfor %}
+        </article>
+    
+        
+    
+        </div> <!-- col.// -->
+    </div> <!-- row.// -->
+    
+    
+    </div> <!-- container .//  -->
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}
