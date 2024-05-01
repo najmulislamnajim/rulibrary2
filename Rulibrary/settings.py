@@ -53,6 +53,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Rulibrary.urls'
+CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = ['https://rulibrary2.onrender.com','https://*.127.0.0.1' ]
+CORS_ALLOW_ALL_ORIGINS: True
+ALLOWED_HOSTS = ["*"]
+
 
 TEMPLATES = [
     {
