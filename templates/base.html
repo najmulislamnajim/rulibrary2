@@ -310,7 +310,7 @@ $(document).ready(function() {
                     <div class="row" style="padding:10px">
                         <span style="padding: 10px;"><i class="far fa-envelope"></i></span>
                         <p>
-                            sjksbd.bir@gmail.com <br />
+                            najmulislamru@gmail.com <br />
                             support@sjks.org.bd
                             </p>
                     </div>
@@ -318,7 +318,7 @@ $(document).ready(function() {
                     <div class="row" style="padding:10px">
                         <span style="padding: 10px;"><i class="fas fa-phone"></i></span>
                         <p>
-                            +88 01700000000 <br />
+                            +88 01767500160 <br />
                             +88 01700000000
                         </p>
                     </div>
@@ -353,7 +353,7 @@ $(document).ready(function() {
 
                 <div class="col-md-4">
                     <h4>Quick Message</h4>
-                    <form method="post">
+                    <form >
                         {%csrf_token %}
                         <div data-mdb-input-init class="form-outline mb-1">
                             <input id="contact_name" name="name" type="text"placeholder="Enter your Name"class="form-control" required/>
@@ -367,7 +367,7 @@ $(document).ready(function() {
                         <div data-mdb-input-init class="form-outline mb-1">
                             <textarea name="message" cols="40" rows="3" style="width: 380px;border-color:#d5d1d1;" class="rounded" id="contact_message" placeholder="Type your message"></textarea>
                         </div>
-                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" disabled>Send Message</button>
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" onclick="handleContact()">Send Message</button>
                     </form>
 
                 </div>
@@ -402,6 +402,75 @@ $(document).ready(function() {
         </div>
     </section>
 <!-- ========================= FOOTER END // ========================= -->
+
+<script>
+    const handleContact=()=>{
+        const name=document.getElementById("contact_name").value;
+        const phone=document.getElementById("contact_phone").value
+        const email=document.getElementById("contact_email").value
+        const message=document.getElementById("contact_message").value
+        const info={
+          name:name,
+          email:email,
+          phone:phone,
+          message:message, 
+        }
+        if (name=="" || email=="" || phone=="" ||message==""){
+          const alertMessage = document.createElement('div');
+          alertMessage.textContent = 'Message don"t send. All fields are required!';
+          alertMessage.style.backgroundColor = '#Ff0000';
+          alertMessage.style.color = 'white';
+          alertMessage.style.padding = '10px';
+          alertMessage.style.position = 'fixed';
+          alertMessage.style.top = '10px';
+          alertMessage.style.left = '50%';
+          alertMessage.style.transform = 'translateX(-50%)';
+          alertMessage.style.zIndex = '9999';
+          document.body.appendChild(alertMessage);
+          
+          setTimeout(function() {
+              alertMessage.style.display = 'none';
+          }, 5000);
+          return;
+        }
+      
+        fetch("https://bloodbankbd.pythonanywhere.com/contact/", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(info),
+        })
+          .then((res) => {
+            console.log(res);
+            alert('response')
+            if (res.ok) {
+                const alertMessage = document.createElement('div');
+                    alertMessage.textContent = 'Message sent successfully!';
+                    alertMessage.style.backgroundColor = '#4CAF50';
+                    alertMessage.style.color = 'white';
+                    alertMessage.style.padding = '10px';
+                    alertMessage.style.position = 'fixed';
+                    alertMessage.style.top = '10px';
+                    alertMessage.style.left = '50%';
+                    alertMessage.style.transform = 'translateX(-50%)';
+                    alertMessage.style.zIndex = '9999';
+                    document.body.appendChild(alertMessage);
+                    setTimeout(function() {
+                        alertMessage.style.display = 'none';
+                    }, 5000);
+                    window.location.href = "{% url 'profile' %}";
+                
+            }
+            else{
+            }
+            return res.json();
+        })
+          .then((data) => {
+          })
+          .catch((err) => {
+            console.log(err);
+        });
+      }
+</script>
 
 </body>
 </html>
