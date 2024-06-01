@@ -3,6 +3,7 @@ from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
+from borrow.views import Unauthorized
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('online/',include('book2.urls')),
     path('profile/',views.profile,name='profile'),
+    path('unauthorized/',Unauthorized,name='unauthorized'),
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

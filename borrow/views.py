@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from book.models import *
 
 # Create your views here.
@@ -34,7 +35,8 @@ def borrow(request,book_id):
             
         return render(request,'borrow_confirmation.html',{'book':book})
     else:
-        return redirect('guest')
+        # return HttpResponse("You need to be logged in to view this page.", status=401)
+        return redirect('unauthorized')
     
 def borrow_list(request):
     user=request.user
@@ -49,3 +51,6 @@ def return_book(request,book_id):
         b_id=item.book.id
     model.delete()
     return redirect('review',book_id=b_id)
+
+def Unauthorized(request):
+    return render(request,'berror.html')

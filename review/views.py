@@ -9,10 +9,9 @@ def review(request,book_id=1):
     print(book_id)
     form=ReviewForm
     book=get_object_or_404(BookModel,id=book_id)
-    print('vai vai vai',book)
     user_review=ReviewModel.objects.filter(user=request.user,book=book).first()
     if user_review:
-        return HttpResponse('You already give a review')
+        return redirect('home')
     else:    
         if request.method=='POST':
             print('vai ekhane')
